@@ -8,6 +8,7 @@ import QuestionBody from './questionBody';
 import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
+import TranslateDropdown from '../translate';
 
 /**
  * AnswerPage component that displays the full content of a question along with its answers.
@@ -22,6 +23,7 @@ const AnswerPage = () => {
 
   return (
     <>
+      <TranslateDropdown questions={[question]} />
       <VoteComponent question={question} />
       <AnswerHeader ansCount={question.answers.length} title={question.title} />
       <QuestionBody

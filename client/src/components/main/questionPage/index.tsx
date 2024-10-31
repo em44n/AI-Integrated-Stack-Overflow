@@ -3,6 +3,7 @@ import './index.css';
 import QuestionHeader from './header';
 import QuestionView from './question';
 import useQuestionPage from '../../../hooks/useQuestionPage';
+import TranslateDropdown from '../translate';
 
 /**
  * QuestionPage component renders a page displaying a list of questions
@@ -19,6 +20,7 @@ const QuestionPage = () => {
         qcnt={qlist.length}
         setQuestionOrder={setQuestionOrder}
       />
+      <TranslateDropdown questions={qlist} />
       <div id='question_list' className='question_list'>
         {qlist.map((q, idx) => (
           <QuestionView q={q} key={idx} />

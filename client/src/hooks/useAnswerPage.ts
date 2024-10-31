@@ -4,6 +4,7 @@ import { Comment, Answer, Question, VoteData } from '../types';
 import useUserContext from './useUserContext';
 import addComment from '../services/commentService';
 import { getQuestionById } from '../services/questionService';
+import useTranslation from './useTranslation';
 
 /**
  * Custom hook for managing the answer page's state, navigation, and real-time updates.
