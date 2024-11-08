@@ -4,6 +4,7 @@ import Form from '../baseComponents/form';
 import Input from '../baseComponents/input';
 import TextArea from '../baseComponents/textarea';
 import './index.css';
+import SimilarQuestions from './similarQuestions';
 
 /**
  * NewQuestionPage component allows users to submit a new question with a title,
@@ -33,6 +34,7 @@ const NewQuestionPage = () => {
         setState={setTitle}
         err={titleErr}
       />
+      <SimilarQuestions text={text} />
       <TextArea
         title={'Question Text'}
         hint={'Add details'}

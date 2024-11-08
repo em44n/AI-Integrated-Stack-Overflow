@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import filterQueriesBySimilarity from '../../../services/sentenceSimilarityService';
+import { filterQueriesBySimilarity } from '../../../services/sentenceSimilarityService';
 
 interface Query {
   _id: string;
@@ -35,8 +35,8 @@ const SimilarityChecker: React.FC = () => {
       const results = await filterQueriesBySimilarity(mainSentence, queries);
       // Filter out any undefined values after mapping
       const similarQueryObjects = results
-        .map(id => queries.find(query => query._id === id)) // This may return Query | undefined
-        .filter((query): query is Query => query !== undefined); // Type guard to filter out undefined
+        .map((id: string) => queries.find(query => query._id === id)) // This may return Query | undefined
+        .filter((query: Query | undefined): query is Query => query !== undefined); // Type guard to filter out undefined
 
       setSimilarQueries(similarQueryObjects); // Now similarQueries is guaranteed to be Query[]
     } catch (api_error) {
