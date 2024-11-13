@@ -642,3 +642,26 @@ export const getTagCountMap = async (): Promise<Map<string, number> | null | { e
     return { error: 'Error when construction tag map' };
   }
 };
+
+/**
+ * Generates an AI answer for a given question body.
+ *
+ * @param questionBody The body of the question for which to generate an AI answer.
+ *
+ * @returns AI-generated answer.
+ */
+export const generateAIAnswer = (questionBody: Question): Answer => {
+  // TO-DO: insert logic for generating an answer based on the question
+
+  // Create a new answer object
+  const answer: Answer = {
+    // Note: text will be replaced once answer generation API is set up
+    text: `This is the AI-generated answer! At the moment, I can't generate an answer. Sorry :()`,
+    ansBy: 'AI',
+    ansDateTime: new Date(),
+    comments: [],
+    aiAnswer: true,
+  };
+
+  return answer;
+};
