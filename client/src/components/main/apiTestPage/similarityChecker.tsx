@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { filterQueriesBySimilarity } from '../../../services/sentenceSimilarityService';
+import translateText from '../../../services/translationService';
 
 interface Query {
   _id: string;
@@ -9,6 +10,7 @@ interface Query {
 
 const SimilarityChecker: React.FC = () => {
   const [mainSentence, setMainSentence] = useState<string>('');
+  const [sentenceToTranslate, setTranslation] = useState<string>('');
   const [queriesInput, setQueriesInput] = useState<string>('');
   const [similarQueries, setSimilarQueries] = useState<Query[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,6 +41,13 @@ const SimilarityChecker: React.FC = () => {
         .filter((query: Query | undefined): query is Query => query !== undefined); // Type guard to filter out undefined
 
       setSimilarQueries(similarQueryObjects); // Now similarQueries is guaranteed to be Query[]
+      // Translate the main sentence to Spanish
+      const translation = await translateText({
+        text: mainSentence,
+        source_lang: 'en_XX',
+        target_lang: 'es_XX',
+      });
+      setTranslation(translation || 'Translation failed');
     } catch (api_error) {
       setError('Error fetching similar queries. Please try again later.');
       console.error('API Error:', api_error);
@@ -95,6 +104,10 @@ const SimilarityChecker: React.FC = () => {
         ) : (
           <p>No similar queries found.</p>
         )}
+      </div>
+      <div>
+        <h3>Translated to Spanish</h3>
+        <p>{sentenceToTranslate}</p>
       </div>
     </div>
   );
