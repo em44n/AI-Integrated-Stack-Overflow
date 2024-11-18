@@ -11,22 +11,23 @@ import TranslateDropdown from '../translate';
  * It includes a header with order buttons and a button to ask a new question.
  */
 const QuestionPage = () => {
-  const { titleText, qlist, setQuestionOrder } = useQuestionPage();
-
+  const { titleText, qlist, translatedQlist, setTranslatedQlist, setQuestionOrder } =
+    useQuestionPage();
+  const displayedQuestions = translatedQlist || qlist;
   return (
     <>
       <QuestionHeader
         titleText={titleText}
-        qcnt={qlist.length}
+        qcnt={displayedQuestions.length}
         setQuestionOrder={setQuestionOrder}
       />
-      <TranslateDropdown questions={qlist} />
+      <TranslateDropdown questions={qlist} translated={setTranslatedQlist} />
       <div id='question_list' className='question_list'>
-        {qlist.map((q, idx) => (
+        {displayedQuestions.map((q, idx) => (
           <QuestionView q={q} key={idx} />
         ))}
       </div>
-      {titleText === 'Search Results' && !qlist.length && (
+      {titleText === 'Search Results' && !displayedQuestions.length && (
         <div className='bold_title right_padding'>No Questions Found</div>
       )}
     </>

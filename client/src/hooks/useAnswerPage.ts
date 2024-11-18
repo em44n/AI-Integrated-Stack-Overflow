@@ -21,6 +21,7 @@ const useAnswerPage = () => {
   const { user, socket } = useUserContext();
   const [questionID, setQuestionID] = useState<string>(qid || '');
   const [question, setQuestion] = useState<Question | null>(null);
+  const [translatedQuestion, setTranslatedQuestion] = useState<Question[] | null>(null);
 
   /**
    * Function to handle navigation to the "New Answer" page.
@@ -179,6 +180,8 @@ const useAnswerPage = () => {
     question,
     handleNewComment,
     handleNewAnswer,
+    translatedQuestion,
+    setTranslatedQuestion,
   };
 };
 

@@ -4,18 +4,27 @@ import './index.css';
 
 interface TranslateProps {
   questions: Question[];
+  translated: (qlist: Question[] | null) => void;
 }
 
-const TranslateDropdown = ({ questions }: TranslateProps) => {
-  const { languages, selectedLanguage, setSelectedLanguage } = useTranslation(questions);
+const TranslateDropdown = ({ questions, translated }: TranslateProps) => {
+  const { languages, targetLang, setTargetLang } = useTranslation(questions, translated);
+
+  const handleLanguageChange = async (language: string) => {
+    setTargetLang(language);
+
+    if (language === 'English') {
+      translated(null);
+    }
+  };
 
   return (
     <div className='translate-container'>
       <select
         name='languages'
         id='languages'
-        value={selectedLanguage}
-        onChange={e => setSelectedLanguage(e.target.value)}>
+        value={targetLang}
+        onChange={e => handleLanguageChange(e.target.value)}>
         {languages.map(lang => (
           <option key={lang}> {lang} </option>
         ))}

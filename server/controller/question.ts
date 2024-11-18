@@ -228,49 +228,12 @@ const questionController = (socket: FakeSOSocket) => {
     voteQuestion(req, res, 'downvote');
   };
 
-  /**
-   * Handles translating questions. The request must contain the question IDs (string[]).
-   * If the request is invalid or an error occurs, the appropriate HTTP response status and message are returned.
-   *
-   * @param req The TranslateQuestionsRequest object containing the question IDs.
-   * @param res The HTTP response object used to send back the result of the operation.
-   *
-   * @returns A Promise that resolves to void.
-   */
-  const translateQuestions = async (
-    req: TranslateQuestionsRequest,
-    res: Response,
-  ): Promise<void> => {
-    const { ids, language } = req.body;
-    console.log(`${ids} $language}`);
-    if (!ids || ids.length === 0) {
-      res.status(400).send('No question IDs');
-      return;
-    }
-    if (!language) {
-      res.status(400).send('No language');
-      return;
-    }
-    try {
-      // commented out until API implementation
-      // const translatedQuestions = await Promise.all(
-      //   questionIDs.map((id) => translateQuestionAPICall(id, language))
-      // );
-      // res.status(200).json(translatedQuestions);
-      throw new Error('no API yet');
-    } catch (error) {
-      // Handle any errors during translation
-      res.status(500).json({ message: 'An error occurred while translating the questions' });
-    }
-  };
-
   // add appropriate HTTP verbs and their endpoints to the router
   router.get('/getQuestion', getQuestionsByFilter);
   router.get('/getQuestionById/:qid', getQuestionById);
   router.post('/addQuestion', addQuestion);
   router.post('/upvoteQuestion', upvoteQuestion);
   router.post('/downvoteQuestion', downvoteQuestion);
-  router.post('/translateQuestions', translateQuestions);
 
   return router;
 };

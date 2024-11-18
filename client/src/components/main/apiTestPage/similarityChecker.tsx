@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { filterQueriesBySimilarity } from '../../../services/sentenceSimilarityService';
-import translateText from '../../../services/translationService';
+import { translateText } from '../../../services/translationService';
 
 interface Query {
   _id: string;
@@ -45,7 +45,7 @@ const SimilarityChecker: React.FC = () => {
       const translation = await translateText({
         text: mainSentence,
         source_lang: 'en_XX',
-        target_lang: 'es_XX',
+        target_lang: 'ko_KR',
       });
       setTranslation(translation || 'Translation failed');
     } catch (api_error) {
