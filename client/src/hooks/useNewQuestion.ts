@@ -4,6 +4,7 @@ import { validateHyperlink } from '../tool';
 import { addQuestion } from '../services/questionService';
 import useUserContext from './useUserContext';
 import { Question } from '../types';
+import { getAITags } from '../services/automatedAnswerService';
 
 /**
  * Custom hook to handle question submission and form validation
@@ -56,10 +57,7 @@ const useNewQuestion = () => {
     }
 
     const tagnames = tagNames.split(' ').filter(tagName => tagName.trim() !== '');
-    if (tagnames.length === 0) {
-      setTagErr('Should have at least 1 tag');
-      isValid = false;
-    } else if (tagnames.length > 5) {
+    if (tagnames.length > 5) {
       setTagErr('Cannot have more than 5 tags');
       isValid = false;
     } else {
@@ -84,11 +82,17 @@ const useNewQuestion = () => {
    */
   const postQuestion = async () => {
     if (!validateForm()) return;
+    let tagnames = tagNames.split(' ').filter(tagName => tagName.trim() !== '');
+    let tagDescription = 'user added tag';
 
-    const tagnames = tagNames.split(' ').filter(tagName => tagName.trim() !== '');
+    if (tagnames.length === 0) {
+      tagnames = await getAITags({ question: text });
+      tagDescription = 'AI generated tag';
+    }
+
     const tags = tagnames.map(tagName => ({
       name: tagName,
-      description: 'user added tag',
+      description: tagDescription,
     }));
 
     const question: Question = {
