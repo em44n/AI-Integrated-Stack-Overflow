@@ -1,0 +1,63 @@
+.similar-questions {
+    margin-bottom: 1em;
+}
+
+.similar-section-title {
+    font-weight: 600;    
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+
+.similar-section {
+    margin: 0.5em;
+    padding: 0.5em;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+  }
+  
+  .similar-container {
+    margin-top: 0.5em;
+  }
+  
+  .similar-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .similar-item {
+    background-color: #fff;
+    padding: 0.5em;
+    margin-bottom: 0.1em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+ 
+  .similar-link {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline */
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .similar-link:hover {
+    color: #0056b3; /* Darker shade for hover effect */
+    text-decoration: underline; /* Optional: underline on hover */
+  }
+
+  .similar-title {
+    line-height: 50%;
+    font-size: 0.85rem;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    text-decoration: underline;
+  }
+  
+  .similar-text {
+    line-height: 90%;
+    font-size: 0.65rem;
+    text-decoration: none;
+    margin-bottom: 0;
+    color: #666;
+  }
