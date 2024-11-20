@@ -4,9 +4,11 @@ import './index.css';
 
 /**
  * Interface reprsenting the props for the SimilarQuestions component
+ * - qid: id of the question being checked for similarity, or null if the question doesn't exist yet
  * - text: text of the question being checked for similarity
  */
 interface SimiliarQuestionsProps {
+  qid: string | null;
   text: string;
 }
 
@@ -14,9 +16,9 @@ interface SimiliarQuestionsProps {
  * SimilarQuestions component shows the users at most the top 3 similar questions to the text being inputted.
  * @param text: text of the question being checked for similarity
  */
-const SimilarQuestions = ({ text }: SimiliarQuestionsProps) => {
+const SimilarQuestions = ({ qid, text }: SimiliarQuestionsProps) => {
   const navigate = useNavigate();
-  const { similarQuestions } = useSimilarQuestions(text);
+  const { similarQuestions } = useSimilarQuestions(qid, text);
   /**
    * Function to navigate to the specified question page based on the question ID.
    *

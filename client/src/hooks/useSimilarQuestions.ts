@@ -5,10 +5,11 @@ import { getQuestionsByFilter } from '../services/questionService';
 
 /**
  * Custom hook for managing the state and logic of the similar questions on the question form.
+ * @param qid - id of the question to check similarity for, null if question does not exist yet
  * @param text - the text of the question to check similarity for
  * @returns similarQuestions - array of questions are similar to the question the user is writing
  */
-const useSimilarQuestions = (text: string) => {
+const useSimilarQuestions = (qid: string | null, text: string) => {
   const [similarQuestions, setSimilarQuestions] = useState<Question[] | undefined>();
   const [prevWordCount, setPrevWordCount] = useState(0);
 
@@ -20,7 +21,7 @@ const useSimilarQuestions = (text: string) => {
       const fetchData = async () => {
         try {
           const questions = await getQuestionsByFilter();
-          const res = await filterQuestionsBySimilarity(text, questions);
+          const res = await filterQuestionsBySimilarity(qid, text, questions);
           setSimilarQuestions(res || []);
         } catch (error) {
           // eslint-disable-next-line no-console
@@ -29,7 +30,7 @@ const useSimilarQuestions = (text: string) => {
       };
       fetchData();
     }
-  }, [text, prevWordCount]);
+  }, [text, prevWordCount, qid]);
 
   return {
     similarQuestions,

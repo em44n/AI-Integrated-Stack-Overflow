@@ -52,7 +52,9 @@ const AnswerPage = () => {
         }}>
         Answer Question
       </button>
-      <SimilarQuestions text={question.text} />
+      <div className='similar-questions'>
+        <SimilarQuestions qid={questionID} text={question.text} />
+      </div>
     </>
   );
 };

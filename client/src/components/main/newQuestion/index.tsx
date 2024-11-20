@@ -34,7 +34,7 @@ const NewQuestionPage = () => {
         setState={setTitle}
         err={titleErr}
       />
-      <SimilarQuestions text={text} />
+      <SimilarQuestions qid={null} text={text} />
       <TextArea
         title={'Question Text'}
         hint={'Add details'}
