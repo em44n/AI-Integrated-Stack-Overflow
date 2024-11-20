@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import useTranslation from '../../../hooks/useTranslation';
 import { Question } from '../../../types';
 import './index.css';

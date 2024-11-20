@@ -129,7 +129,6 @@ const useTranslation = (
           const translations = await Promise.all(
             questions.map(async question => {
               if (!question) return null;
-              console.log('question:', question);
               const translated = await translateQuestion({
                 question,
                 source_lang: getLanguageCode('English'),

@@ -55,7 +55,6 @@ const translateQuestion = async (data: TranslateQuestionRequest): Promise<Questi
   try {
     const translateField = async (text: string): Promise<string> => {
       if (text === undefined) return '';
-      console.log('text being translated: ', text);
       const response = await axios.post<TranslationResponse[]>(
         API_URL,
         { inputs: text, parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang } },
