@@ -5,7 +5,7 @@ import { addQuestion } from '../services/questionService';
 import addAnswer from '../services/answerService';
 import useUserContext from './useUserContext';
 import { Question, Answer } from '../types';
-import { getAITags, getAIAnswer } from '../services/automatedAnswerService';
+import { getAITags } from '../services/automatedAnswerService';
 
 /**
  * Custom hook to handle question submission and form validation
@@ -115,20 +115,20 @@ const useNewQuestion = () => {
       throw new Error('Error finding question ID');
     }
 
-    const aiGeneratedText = await getAIAnswer({ question: text });
+    // const aiGeneratedText = await getAIAnswer({ question: text });
 
     // only add AI generated answer if one was able to be generated
-    if (aiGeneratedText) {
-      const answer: Answer = {
-        text: aiGeneratedText,
-        ansBy: 'AI',
-        ansDateTime: new Date(),
-        comments: [],
-        aiAnswer: true,
-      };
+    // if (aiGeneratedText) {
+    const answer: Answer = {
+      text: 'Hey! This is the AI-generated answer! :)', // aiGeneratedText,
+      ansBy: 'AI',
+      ansDateTime: new Date(),
+      comments: [],
+      aiAnswer: true,
+    };
 
-      await addAnswer(res._id, answer);
-    }
+    await addAnswer(res._id, answer);
+    // }
 
     if (res && res._id) {
       navigate('/home');

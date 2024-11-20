@@ -17,9 +17,6 @@ import {
   processTags,
   populateDocument,
   saveQuestion,
-  generateAIAnswer,
-  addAnswerToQuestion,
-  saveAnswer,
 } from '../models/application';
 
 const questionController = (socket: FakeSOSocket) => {
@@ -143,24 +140,6 @@ const questionController = (socket: FakeSOSocket) => {
       const result = await saveQuestion(questionswithtags);
       if ('error' in result) {
         throw new Error(result.error);
-      }
-
-      // generate an answer for the question asked and save it
-      const aiAnswer = generateAIAnswer(question);
-      const ansFromDb = await saveAnswer(aiAnswer);
-
-      if ('error' in ansFromDb) {
-        throw new Error(ansFromDb.error as string);
-      }
-
-      if (result._id?.toString() === undefined) {
-        throw new Error('Question ID undefined');
-      }
-
-      const status = await addAnswerToQuestion(result._id?.toString(), ansFromDb);
-
-      if (status && 'error' in status) {
-        throw new Error(status.error as string);
       }
 
       // Populates the fields of the question that was added, and emits the new object
