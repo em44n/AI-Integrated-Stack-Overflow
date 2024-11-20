@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import AnswerHeader from './header';
@@ -32,7 +32,11 @@ const AnswerPage = () => {
 
   return (
     <>
-      <TranslateDropdown questions={[question]} translated={setTranslatedQuestion} />
+      <TranslateDropdown
+        questions={[question]}
+        prevTranslated={translatedQuestion}
+        translated={setTranslatedQuestion}
+      />
       <VoteComponent question={question} />
       <AnswerHeader ansCount={question.answers.length} title={displayedQuestions.title} />
       <QuestionBody

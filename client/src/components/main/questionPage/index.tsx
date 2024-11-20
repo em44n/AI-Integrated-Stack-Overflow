@@ -21,7 +21,11 @@ const QuestionPage = () => {
         qcnt={displayedQuestions.length}
         setQuestionOrder={setQuestionOrder}
       />
-      <TranslateDropdown questions={qlist} translated={setTranslatedQlist} />
+      <TranslateDropdown
+        questions={qlist}
+        prevTranslated={translatedQlist}
+        translated={setTranslatedQlist}
+      />
       <div id='question_list' className='question_list'>
         {displayedQuestions.map((q, idx) => (
           <QuestionView q={q} key={idx} />

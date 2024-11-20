@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Comment, Answer, Question, VoteData } from '../types';
 import useUserContext from './useUserContext';
 import addComment from '../services/commentService';
 import { getQuestionById } from '../services/questionService';
-import useTranslation from './useTranslation';
 
 /**
  * Custom hook for managing the answer page's state, navigation, and real-time updates.
@@ -22,7 +21,6 @@ const useAnswerPage = () => {
   const [questionID, setQuestionID] = useState<string>(qid || '');
   const [question, setQuestion] = useState<Question | null>(null);
   const [translatedQuestion, setTranslatedQuestion] = useState<Question[] | null>(null);
-
   /**
    * Function to handle navigation to the "New Answer" page.
    */

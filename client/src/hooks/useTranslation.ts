@@ -5,11 +5,13 @@ import { translateQuestion } from '../services/translationService';
 /**
  * Custom hook to translate a list of questions.
  * @param {Question[] | null} questions - List of questions to translate.
+ * @param setTranslatedQlist - function to set the translated question list of the parent component
  * @returns object - Returns the translated questions, selected language, a function to set the selected language,
  *                   and the available languages for translation.
  */
 const useTranslation = (
   questions: Question[] | null,
+  prevTranslated: Question[] | null,
   setTranslatedQlist: (qlist: Question[] | null) => void,
 ) => {
   const languages = [
@@ -127,6 +129,7 @@ const useTranslation = (
           const translations = await Promise.all(
             questions.map(async question => {
               if (!question) return null;
+              console.log('question:', question);
               const translated = await translateQuestion({
                 question,
                 source_lang: getLanguageCode('English'),
@@ -135,9 +138,13 @@ const useTranslation = (
               return translated;
             }),
           );
-          setTranslatedQlist(
-            translations.filter(value => value !== null && value !== undefined) as Question[],
-          );
+          const nonNullTranslations = translations.filter(
+            value => value !== null && value !== undefined,
+          ) as Question[];
+
+          if (JSON.stringify(nonNullTranslations) !== JSON.stringify(prevTranslated)) {
+            setTranslatedQlist(nonNullTranslations);
+          }
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -146,7 +153,7 @@ const useTranslation = (
     };
 
     fetchData();
-  }, [targetLang, questions]);
+  }, [targetLang, questions, setTranslatedQlist, prevTranslated]);
 
   return {
     targetLang,
