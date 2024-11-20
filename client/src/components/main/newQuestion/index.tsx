@@ -4,7 +4,7 @@ import Form from '../baseComponents/form';
 import Input from '../baseComponents/input';
 import TextArea from '../baseComponents/textarea';
 import './index.css';
-import SimilarQuestions from './similarQuestions';
+import SimilarQuestions from '../similarQuestions';
 
 /**
  * NewQuestionPage component allows users to submit a new question with a title,
