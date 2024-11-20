@@ -45,7 +45,7 @@ const SimilarityChecker: React.FC = () => {
       const translation = await translateText({
         text: mainSentence,
         source_lang: 'en_XX',
-        target_lang: 'ko_KR',
+        target_lang: 'es_XX',
       });
       setTranslation(translation || 'Translation failed');
     } catch (api_error) {

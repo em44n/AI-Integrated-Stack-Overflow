@@ -5,6 +5,7 @@ import { translateQuestion } from '../services/translationService';
 /**
  * Custom hook to translate a list of questions.
  * @param {Question[] | null} questions - List of questions to translate.
+ * @param prevTranslated - the existing list of translated questions
  * @param setTranslatedQlist - function to set the translated question list of the parent component
  * @returns object - Returns the translated questions, selected language, a function to set the selected language,
  *                   and the available languages for translation.

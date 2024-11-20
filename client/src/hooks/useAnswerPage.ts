@@ -12,6 +12,8 @@ import { getQuestionById } from '../services/questionService';
  * @returns question - The current question object with its answers, comments, and votes.
  * @returns handleNewComment - Function to handle the submission of a new comment to a question or answer.
  * @returns handleNewAnswer - Function to navigate to the "New Answer" page
+ * @returns translatedQuestion - the result of translating a question
+ * @returns setTranslateQuestion - function to set the value of the translated question
  */
 const useAnswerPage = () => {
   const { qid } = useParams();

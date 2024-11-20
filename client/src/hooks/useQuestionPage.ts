@@ -8,7 +8,9 @@ import { getQuestionsByFilter } from '../services/questionService';
  * Custom hook for managing the question page state, filtering, and real-time updates.
  *
  * @returns titleText - The current title of the question page
- * @returns qlist - The list of questions to display
+ * @returns qlist - The list of original questions from database
+ * @returns translatedQlist - list of translated questions
+ * @returns setTranslatedQlist - list function to set the list of translated questions
  * @returns setQuestionOrder - Function to set the sorting order of questions (e.g., newest, oldest).
  */
 const useQuestionPage = () => {
