@@ -5,7 +5,6 @@ import {
   FindQuestionRequest,
   FindQuestionByIdRequest,
   AddQuestionRequest,
-  TranslateQuestionsRequest,
   VoteRequest,
   FakeSOSocket,
 } from '../types';

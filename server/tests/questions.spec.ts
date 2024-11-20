@@ -6,7 +6,6 @@ import { Answer, Question, Tag } from '../types';
 
 const getQuestionsByOrderSpy: jest.SpyInstance = jest.spyOn(util, 'getQuestionsByOrder');
 const filterQuestionsBySearchSpy: jest.SpyInstance = jest.spyOn(util, 'filterQuestionsBySearch');
-// const translateQuestionsSpy: jest.SpyInstance = jest.spyOn(util, 'translateQuestionsAPICall');
 
 const tag1: Tag = {
   _id: new mongoose.Types.ObjectId('507f191e810c19729de860ea'),
@@ -167,84 +166,6 @@ describe('GET /getQuestion', () => {
     const response = await supertest(app).get('/question/getQuestion').query(mockReqQuery);
 
     // Asserting the response
-    expect(response.status).toBe(500);
-  });
-});
-
-describe('POST /translateQuestions', () => {
-  afterEach(async () => {
-    await mongoose.connection.close(); // Ensure the connection is properly closed
-  });
-
-  afterAll(async () => {
-    await mongoose.disconnect(); // Ensure mongoose is disconnected after all tests
-  });
-
-  // commented out because successful translation case has not been implemented yet!
-  // it('should return 200 if translateQuestions successfully translates', async () => {
-  //   // Mock request query parameters
-  //   const mockReqBody = {
-  //     ids: ['1', '2', '3', '4'],
-  //     language: 'Spanish',
-  //   };
-  //   // translateQuestionsAPICallSpy.mockResolvedValueOnce(MOCK_QUESTIONS);
-  //   const response = await supertest(app).post('/question/translateQuestions').send(mockReqBody);
-  //   expect(response.status).toBe(200);
-  // });
-
-  it('should return error if translateQuestions throws an error', async () => {
-    // Mock request query parameters
-    const mockReqBody = {
-      ids: ['1', '2', '3', '4'],
-      language: 'German',
-    };
-    // translateQuestionsAPICallSpy.mockRejectedValueOnce(some Error);
-    const response = await supertest(app).post('/question/translateQuestions').send(mockReqBody);
-    expect(response.status).toBe(500);
-  });
-
-  it('should return 400 if translateQuestions request body is missing a language', async () => {
-    // Mock request query parameters
-    const mockReqBody = {
-      ids: ['1', '2', '3', '4'],
-    };
-    // translateQuestionsAPICallSpy.mockRejectedValueOnce(some Error);
-    const response = await supertest(app).post('/question/translateQuestions').send(mockReqBody);
-    expect(response.status).toBe(400);
-    expect(response.text).toBe('No language');
-  });
-
-  it('should return 400 if translateQuestions request body is missing ids', async () => {
-    // Mock request query parameters
-    const mockReqBody = {
-      language: 'Portuguese',
-    };
-    // translateQuestionsAPICallSpy.mockRejectedValueOnce(some Error);
-    const response = await supertest(app).post('/question/translateQuestions').send(mockReqBody);
-    expect(response.status).toBe(400);
-    expect(response.text).toBe('No question IDs');
-  });
-
-  it('should return 400 if translateQuestions request body has empty list of ids', async () => {
-    // Mock request query parameters
-    const mockReqBody = {
-      ids: [],
-      language: 'Vietnamese',
-    };
-    // translateQuestionsAPICallSpy.mockRejectedValueOnce(some Error);
-    const response = await supertest(app).post('/question/translateQuestions').send(mockReqBody);
-    expect(response.status).toBe(400);
-    expect(response.text).toBe('No question IDs');
-  });
-
-  it('should return error if translateQuestions throws an error', async () => {
-    // Mock request query parameters
-    const mockReqBody = {
-      ids: ['1', '2', '3', '4'],
-      language: 'English',
-    };
-    // translateQuestionsAPICallSpy.mockRejectedValueOnce(some Error);
-    const response = await supertest(app).post('/question/translateQuestions').send(mockReqBody);
     expect(response.status).toBe(500);
   });
 });

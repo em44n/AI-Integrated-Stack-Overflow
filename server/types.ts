@@ -122,17 +122,6 @@ export interface AddQuestionRequest extends Request {
 }
 
 /**
- * Interface for the request body when translating questions.
- * - body - The ids of questions being translated and the language they are being translated to.
- */
-export interface TranslateQuestionsRequest extends Request {
-  body: {
-    ids: string[];
-    language: string;
-  }
-}
-
-/**
  * Interface for the request body when upvoting or downvoting a question.
  * - body - The question ID and the username of the user voting.
  *  - qid - The unique identifier of the question.
