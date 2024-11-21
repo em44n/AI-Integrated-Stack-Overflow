@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import axios from 'axios';
 import { Question } from '../types';
 import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
