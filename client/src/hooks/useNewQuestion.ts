@@ -5,7 +5,7 @@ import { addQuestion } from '../services/questionService';
 import addAnswer from '../services/answerService';
 import useUserContext from './useUserContext';
 import { Question, Answer } from '../types';
-import { getAITags, getAIAnswer } from '../services/automatedAnswerService';
+import { getAITags, getAIAnswer } from '../services/generateTextService';
 
 /**
  * Custom hook to handle question submission and form validation
