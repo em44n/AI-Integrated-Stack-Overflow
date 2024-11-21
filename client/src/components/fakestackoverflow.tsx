@@ -11,7 +11,6 @@ import NewQuestionPage from './main/newQuestion';
 import NewAnswerPage from './main/newAnswer';
 import AnswerPage from './main/answerPage';
 import APITestPage from './main/apiTestPage';
-// import QuestionsToAnswerPage from './main/questionsToAnswerPage';
 
 const ProtectedRoute = ({
   user,
