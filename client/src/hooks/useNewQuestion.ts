@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { validateHyperlink } from '../tool';
 import { addQuestion } from '../services/questionService';
+import addAnswer from '../services/answerService';
 import useUserContext from './useUserContext';
-import { Question } from '../types';
-import { getAITags } from '../services/automatedAnswerService';
+import { Question, Answer } from '../types';
+import { getAITags, getAIAnswer } from '../services/generateTextService';
 
 /**
  * Custom hook to handle question submission and form validation
@@ -109,6 +110,25 @@ const useNewQuestion = () => {
     };
 
     const res = await addQuestion(question);
+
+    if (!res._id) {
+      throw new Error('Error finding question ID');
+    }
+
+    const aiGeneratedText = await getAIAnswer({ question: text });
+
+    // only add AI generated answer if one was able to be generated
+    if (aiGeneratedText) {
+      const answer: Answer = {
+        text: aiGeneratedText,
+        ansBy: 'AI',
+        ansDateTime: new Date(),
+        comments: [],
+        aiAnswer: true,
+      };
+
+      await addAnswer(res._id, answer);
+    }
 
     if (res && res._id) {
       navigate('/home');

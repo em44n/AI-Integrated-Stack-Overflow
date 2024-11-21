@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
-import axios from 'axios';
+import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
-const API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
-const API_KEY = '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';
+const TEXT_GENERATOR_AI_MODEL = 'Qwen/Qwen2.5-Coder-32B-Instruct';
 
 interface QuestionRequest {
   question: string;
@@ -20,28 +19,24 @@ const removeRepeatedPrompt = (prompt: string, answer: string): string => {
 };
 
 const generateAIText = async (prompt: string): Promise<string | null> => {
-  try {
-    const response = await axios.post<AnswerResponse[]>(
-      API_URL,
-      {
-        inputs: prompt,
+  const response: AnswerResponse[] | null = await postAIRequest(
+    {
+      inputs: prompt,
+      parameters: {
         max_length: 300,
         temperature: 0.3,
         top_p: 0.8,
       },
-      {
-        headers: {
-          'Authorization': `Bearer ${API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    console.log(response.data[0].generated_text);
-    return removeRepeatedPrompt(prompt, response.data[0].generated_text);
-  } catch (error) {
-    console.error('Error getting answer:', error);
-    return null;
+    },
+    TEXT_GENERATOR_AI_MODEL,
+  );
+
+  if (response == null) {
+    throw new Error('Could not fetch AI generated text from Hugging Face API.');
   }
+
+  console.log('Generated text:', response);
+  return removeRepeatedPrompt(prompt, response[0].generated_text);
 };
 
 export const getAIAnswer = async (data: QuestionRequest): Promise<string | null> => {

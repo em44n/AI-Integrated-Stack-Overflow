@@ -16,3 +16,9 @@
 .answer_author {
   color: green;
 }
+
+.ai-generated {
+  color: #3090e2;
+  margin-bottom: 10px;
+  margin-right: .5%;
+}
