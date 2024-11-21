@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
 const TEXT_GENERATOR_AI_MODEL = 'Qwen/Qwen2.5-Coder-32B-Instruct';
@@ -35,7 +34,6 @@ const generateAIText = async (prompt: string): Promise<string | null> => {
     throw new Error('Could not fetch AI generated text from Hugging Face API.');
   }
 
-  console.log('Generated text:', response);
   return removeRepeatedPrompt(prompt, response[0].generated_text);
 };
 

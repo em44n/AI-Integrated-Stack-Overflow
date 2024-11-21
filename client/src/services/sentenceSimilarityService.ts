@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Question } from '../types';
 import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
@@ -21,7 +20,6 @@ async function getSimilarity(mainSentence: string, sentenceToCompare: string): P
     throw new Error('Could not fetch embedding from Hugging Face API.');
   }
 
-  console.log('Similarity:', response);
   return response[0];
 }
 
@@ -33,20 +31,23 @@ async function filterQueriesBySimilarity(
 ): Promise<string[]> {
   const matchingIds: string[] = [];
 
-  for (const query of queries) {
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const similarity = await getSimilarity(mainSentence, query.text);
-      console.log('Similarity:', similarity);
-      if (similarity == null) {
-        return [];
+  const similarities = await Promise.all(
+    queries.map(async query => {
+      try {
+        const similarity = await getSimilarity(mainSentence, query.text);
+        return { _id: query._id, similarity };
+      } catch (error) {
+        throw new Error(`Error comparing with query ID ${query._id}: ${error}`);
       }
-      if (similarity > 0.5) {
-        matchingIds.push(query._id);
-      }
-      console.log('Matching IDs:', matchingIds);
-    } catch (error) {
-      console.error(`Error comparing with query ID ${query._id}:`, error);
+    }),
+  );
+
+  for (const { _id: id, similarity } of similarities) {
+    if (similarity == null) {
+      return [];
+    }
+    if (similarity > 0.5) {
+      matchingIds.push(id);
     }
   }
 
@@ -66,21 +67,23 @@ async function filterQuestionsBySimilarity(
   questions: Question[],
 ): Promise<Question[]> {
   const scoredQuestions: { question: Question; similarity: number }[] = [];
-  for (const question of questions) {
-    try {
+  const similarities = await Promise.all(
+    questions.map(async question => {
       if (question._id !== qid) {
-        // eslint-disable-next-line no-await-in-loop
-        const similarity = await getSimilarity(mainSentence, question.text);
-        console.log('Similarity:', similarity);
-        if (similarity == null) {
-          return [];
-        }
-        if (similarity > 0.3) {
-          scoredQuestions.push({ question, similarity });
+        try {
+          const similarity = await getSimilarity(mainSentence, question.text);
+          return { question, similarity };
+        } catch (error) {
+          throw new Error(`Error comparing with query ID ${question._id}: ${error}`);
         }
       }
-    } catch (error) {
-      console.error(`Error comparing with query ID ${question._id}:`, error);
+      return null;
+    }),
+  );
+
+  for (const result of similarities) {
+    if (result && result.similarity > 0.3) {
+      scoredQuestions.push(result);
     }
   }
   return scoredQuestions
