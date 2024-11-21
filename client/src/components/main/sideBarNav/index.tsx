@@ -27,12 +27,6 @@ const SideBarNav = () => (
       className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
       Api Testing
     </NavLink>
-    {/* <NavLink
-      to='/questions-to-answer'
-      id='menu_api'
-      className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-      Questions to Answer
-    </NavLink> */}
   </div>
 );
 
