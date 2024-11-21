@@ -1,14 +1,27 @@
-The individual and team project for this class are designed to mirror the experiences of a software engineer joining a new development team: you will be “onboarded” to our codebase, make several individual contributions, and then form a team to propose, develop and implement new features. The codebase that we’ll be developing on is a Fake Stack Overflow project (let’s call it HuskyFlow). You will get an opportunity to work with the starter code which provides basic skeleton for the app and then additional features will be proposed and implemented by you! All implementation will take place in the TypeScript programming language, using React for the user interface.
+# Integrating AI into Stack Overflow
+## Description
+This project is a recreation of Stack Overflow, a popular platform for software developers to ask and answer questions. In the previous implementation, we noticed that the website currently was unable to guide users to relevant and accurate answers to their questions. The purpose of our project is to utilize AI to bring more personalization and recommendations to the site, allowing users to find what they're looking for much quicker. To do this, we implemented:
+- An AI-based Similar Questions section on the Answer Page for each question and on the page for creating questions, so users can find questions that others may have asked that are similar to their own.
+- AI tagging, so questions can be categorized more effectively.
+- An AI-based Questions to Answer section for users who are experienced with answering questions to find more questions that their expertise can help answer.
+- An AI-generated answer for each question, so that users can get immediate guidance for what they are wondering
+- A question and answer translation feature, which utilizes AI translation to enable users who are not English speakers to translate the questions and answers on our website to their native language.
+  
+## Technologies
+The project is built using the ReactJS framework, with Typescript, HTML, and CSS for the front-end. The backend is done using Node.js. The API we used for the AI features was HuggingFace, and within HuggingFace we used the MiniLM model for similiarity, the Qwen2.5 model for text generation, and Facebook's Mbart model for translation. The website's front-end and back-end is hosted on Render and the remote database is on MongoDB.
 
-Refer to the [Project Overview](https://neu-se.github.io/CS4530-Fall-2024/assignments/project-overview) for more instructions on the project deliverables and expectations.
-
-{ : .note } Refer to [IP1](https://neu-se.github.io/CS4530-Fall-2024/assignments/ip1) and [IP2](https://neu-se.github.io/CS4530-Fall-2024/assignments/ip2) for instructions related to setting up MongoDB, setting environment variables, and running the client and server.
-
-{ : .note } The fields of the Schemas were changed. As a result, features such as view counts will not work on database entries that were made in IP1 and IP2. If you want to test features, delete old database entries and make new questions either through manually making it in the client or run populate_db.ts.
-
-## Database Architecture
-
-The schemas for the database are documented in the directory `server/models/schema`.
-A class diagram for the schema definition is shown below:
-
-![Class Diagram](class-diagram.png)
+## Instructions to Run Locally
+### Installation
+``` cd client
+npm install
+cd ../server
+npm install
+cd ../testing
+npm install
+```
+### Usage
+``` cd client
+npm run start
+cd ..
+npx ts-node server/server.ts
+```
