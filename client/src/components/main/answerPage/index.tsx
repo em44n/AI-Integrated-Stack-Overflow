@@ -1,13 +1,13 @@
-import React from 'react';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import AnswerHeader from './header';
-import { Comment } from '../../../types';
+import { Comment, Question } from '../../../types';
 import './index.css';
 import QuestionBody from './questionBody';
 import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
+import TranslateDropdown from '../translate';
 import SimilarQuestions from '../similarQuestions';
 
 /**
@@ -15,27 +15,41 @@ import SimilarQuestions from '../similarQuestions';
  * It also includes the functionality to vote, ask a new question, and post a new answer.
  */
 const AnswerPage = () => {
-  const { questionID, question, handleNewComment, handleNewAnswer } = useAnswerPage();
+  const {
+    questionID,
+    question,
+    handleNewComment,
+    handleNewAnswer,
+    translatedQuestion,
+    setTranslatedQuestion,
+  } = useAnswerPage();
 
   if (!question) {
     return null;
   }
 
+  const displayedQuestions: Question = translatedQuestion?.[0] || question;
+
   return (
     <>
+      <TranslateDropdown
+        questions={[question]}
+        prevTranslated={translatedQuestion}
+        translated={setTranslatedQuestion}
+      />
       <VoteComponent question={question} />
-      <AnswerHeader ansCount={question.answers.length} title={question.title} />
+      <AnswerHeader ansCount={question.answers.length} title={displayedQuestions.title} />
       <QuestionBody
         views={question.views.length}
-        text={question.text}
+        text={displayedQuestions.text}
         askby={question.askedBy}
         meta={getMetaData(new Date(question.askDateTime))}
       />
       <CommentSection
-        comments={question.comments}
+        comments={displayedQuestions.comments}
         handleAddComment={(comment: Comment) => handleNewComment(comment, 'question', questionID)}
       />
-      {question.answers.map((a, idx) => (
+      {displayedQuestions.answers.map((a, idx) => (
         <AnswerView
           key={idx}
           text={a.text}
