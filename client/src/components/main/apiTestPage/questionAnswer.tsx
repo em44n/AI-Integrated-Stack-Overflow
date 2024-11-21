@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import getAIAnswer from '../../../services/automatedAnswerService';
+import { getAIAnswer } from '../../../services/generateTextService';
 
 const QuestionAnswerComponent: React.FC = () => {
   const [question, setQuestion] = useState('');

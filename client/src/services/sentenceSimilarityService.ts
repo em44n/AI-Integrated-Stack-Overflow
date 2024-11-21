@@ -1,6 +1,29 @@
 /* eslint-disable no-console */
 import { Question } from '../types';
-import getSimilarity from './huggingFace/sentenceSimilarityAPI';
+import { postAIRequest } from './huggingFace/huggingFaceAPI';
+
+// Hugging Face API URL and Token
+const SIMILARITY_AI_MODEL = 'sentence-transformers/all-MiniLM-L6-v2';
+
+// Function to get similarities of a sentence with another sentence using Hugging Face API
+async function getSimilarity(mainSentence: string, sentenceToCompare: string): Promise<number> {
+  const response: number[] | null = await postAIRequest(
+    {
+      inputs: {
+        source_sentence: mainSentence,
+        sentences: [sentenceToCompare],
+      },
+    },
+    SIMILARITY_AI_MODEL,
+  );
+
+  if (response == null) {
+    throw new Error('Could not fetch embedding from Hugging Face API.');
+  }
+
+  console.log('Similarity:', response);
+  return response[0];
+}
 
 // Function to filter queries based on similarity to the main sentence
 // NOTE: The queries input type may be changed depending on the usage of this function
@@ -15,6 +38,9 @@ async function filterQueriesBySimilarity(
       // eslint-disable-next-line no-await-in-loop
       const similarity = await getSimilarity(mainSentence, query.text);
       console.log('Similarity:', similarity);
+      if (similarity == null) {
+        return [];
+      }
       if (similarity > 0.5) {
         matchingIds.push(query._id);
       }
@@ -43,6 +69,9 @@ async function filterQuestionsBySimilarity(
       // eslint-disable-next-line no-await-in-loop
       const similarity = await getSimilarity(mainSentence, question.text);
       console.log('Similarity:', similarity);
+      if (similarity == null) {
+        return [];
+      }
       if (similarity > 0.3) {
         scoredQuestions.push({ question, similarity });
       }

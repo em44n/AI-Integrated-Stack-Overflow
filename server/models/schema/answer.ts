@@ -21,6 +21,11 @@ const answerSchema: Schema = new Schema(
       type: Date,
     },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    // flag for AI-generated answers
+    aiAnswer: {
+      type: Boolean,
+      default: false, // default to false, only set to true when AI answer is generated
+    },
   },
   { collection: 'Answer' },
 );

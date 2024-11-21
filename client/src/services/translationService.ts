@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { Question } from '../types';
+import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
-const API_URL =
-  'https://api-inference.huggingface.co/models/facebook/mbart-large-50-many-to-many-mmt';
-const API_KEY = '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';
+const TRANSLATION_AI_MODEL = 'facebook/mbart-large-50-many-to-many-mmt';
 
 interface TranslationRequest {
   text: string;
@@ -29,27 +28,21 @@ interface TranslateQuestionRequest {
 }
 
 const translateText = async (data: TranslationRequest): Promise<string | null> => {
-  try {
-    const response = await axios.post<TranslationResponse[]>(
-      API_URL,
-      { inputs: data.text, parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang } },
-      {
-        headers: {
-          'Authorization': `Bearer ${API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+  const response: TranslationResponse[] | null = await postAIRequest(
+    { inputs: data.text, parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang } },
+    TRANSLATION_AI_MODEL,
+  );
 
-    return response.data[0].translation_text;
-  } catch (error) {
-    console.error('Error translating text:', error);
-    return null;
+  if (response == null) {
+    throw new Error('Could not fetch translated text from Hugging Face API.');
   }
+
+  console.log('Translated text:', response);
+  return response[0].translation_text;
 };
 
 /**
- * Function to connect with hugging fact translation API and translate all the text-based fields of a Question
+ * Function to connect with hugging face translation API and translate all the text-based fields of a Question
  * @param data request that includes the question to translate and the language to translate to and from
  * @returns translated Question or null if the question could not be translated
  */

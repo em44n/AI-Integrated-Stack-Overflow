@@ -56,6 +56,7 @@ const AnswerPage = () => {
           meta={getMetaData(new Date(a.ansDateTime))}
           comments={a.comments}
           handleAddComment={(comment: Comment) => handleNewComment(comment, 'answer', a._id)}
+          aiAnswer={a.aiAnswer} // added aiAnswer prop
         />
       ))}
       <button
