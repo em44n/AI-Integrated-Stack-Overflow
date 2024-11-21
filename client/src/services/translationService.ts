@@ -50,17 +50,14 @@ const translateQuestion = async (data: TranslateQuestionRequest): Promise<Questi
   try {
     const translateField = async (text: string): Promise<string> => {
       if (text === undefined) return '';
-      const response = await axios.post<TranslationResponse[]>(
-        API_URL,
-        { inputs: text, parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang } },
+      const response: TranslationResponse[] | null = await postAIRequest(
         {
-          headers: {
-            'Authorization': `Bearer ${API_KEY}`,
-            'Content-Type': 'application/json',
-          },
+          inputs: text,
+          parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang },
         },
+        TRANSLATION_AI_MODEL,
       );
-      return response.data[0]?.translation_text || text;
+      return response?.[0].translation_text || text;
     };
 
     // translate all the text-based fields of question
