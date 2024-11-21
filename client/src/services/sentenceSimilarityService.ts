@@ -55,25 +55,29 @@ async function filterQueriesBySimilarity(
 
 /**
  * Function to get the similarity of a sentence compared to Questions
+ * @param qid the id of the quesiton being compared to other questions, null if the question doesn't exist yet
  * @param mainSentence the sentence (string) to comapre to other Questions
  * @param questions array of Questions to compare main sentence with
  * @returns array of top 3 questions matching the mainSentence, can return anywhere from 0-3 Questions
  */
 async function filterQuestionsBySimilarity(
+  qid: string | null,
   mainSentence: string,
   questions: Question[],
 ): Promise<Question[]> {
   const scoredQuestions: { question: Question; similarity: number }[] = [];
   for (const question of questions) {
     try {
-      // eslint-disable-next-line no-await-in-loop
-      const similarity = await getSimilarity(mainSentence, question.text);
-      console.log('Similarity:', similarity);
-      if (similarity == null) {
-        return [];
-      }
-      if (similarity > 0.3) {
-        scoredQuestions.push({ question, similarity });
+      if (question._id !== qid) {
+        // eslint-disable-next-line no-await-in-loop
+        const similarity = await getSimilarity(mainSentence, question.text);
+        console.log('Similarity:', similarity);
+        if (similarity == null) {
+          return [];
+        }
+        if (similarity > 0.3) {
+          scoredQuestions.push({ question, similarity });
+        }
       }
     } catch (error) {
       console.error(`Error comparing with query ID ${question._id}:`, error);

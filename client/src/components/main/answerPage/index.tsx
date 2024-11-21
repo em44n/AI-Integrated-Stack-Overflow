@@ -8,6 +8,7 @@ import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
 import TranslateDropdown from '../translate';
+import SimilarQuestions from '../similarQuestions';
 
 /**
  * AnswerPage component that displays the full content of a question along with its answers.
@@ -66,6 +67,9 @@ const AnswerPage = () => {
         }}>
         Answer Question
       </button>
+      <div className='similar-questions'>
+        <SimilarQuestions qid={questionID} text={question.text} />
+      </div>
     </>
   );
 };
