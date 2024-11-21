@@ -1,14 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import useSimilarQuestions from '../../../../hooks/useSimilarQuestions';
+import useSimilarQuestions from '../../../hooks/useSimilarQuestions';
 import './index.css';
 
+/**
+ * Interface reprsenting the props for the SimilarQuestions component
+ * - qid: id of the question being checked for similarity, or null if the question doesn't exist yet
+ * - text: text of the question being checked for similarity
+ */
 interface SimiliarQuestionsProps {
+  qid: string | null;
   text: string;
 }
 
-const SimilarQuestions = ({ text }: SimiliarQuestionsProps) => {
+/**
+ * SimilarQuestions component shows the users at most the top 3 similar questions to the text being inputted.
+ * @param text: text of the question being checked for similarity
+ */
+const SimilarQuestions = ({ qid, text }: SimiliarQuestionsProps) => {
   const navigate = useNavigate();
-  const { similarQuestions } = useSimilarQuestions(text);
+  const { similarQuestions } = useSimilarQuestions(qid, text);
   /**
    * Function to navigate to the specified question page based on the question ID.
    *
@@ -22,7 +32,11 @@ const SimilarQuestions = ({ text }: SimiliarQuestionsProps) => {
   }
   return (
     <div className='similar-questions'>
-      <p className='similar-section-title'>Questions that may be similar</p>
+      <p className='similar-section-title'>
+        {similarQuestions !== undefined && similarQuestions.length === 1
+          ? 'Question that may be similar'
+          : 'Questions that may be similar'}
+      </p>
       {similarQuestions !== undefined && (
         <div className='similar-container'>
           <ul className='similar-list'>
