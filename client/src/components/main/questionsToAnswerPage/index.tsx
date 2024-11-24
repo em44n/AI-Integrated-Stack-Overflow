@@ -6,6 +6,11 @@ import useUserContext from '../../../hooks/useUserContext';
 import { filterQuestionsBySimilarity } from '../../../services/sentenceSimilarityService';
 import { getQuestionsByFilter } from '../../../services/questionService';
 
+/**
+ * QuestionsToAnswerPage component renders a page displaying a list of questions
+ * recommended to a user to answer based on questions they have already answered.
+ * It includes links to the recommended questions.
+ */
 const QuestionsToAnswerPage: React.FC = () => {
   const [questions, setQuestions] = useState<Question[] | undefined>();
   const [error, setError] = useState<string | null>(null);
@@ -16,21 +21,24 @@ const QuestionsToAnswerPage: React.FC = () => {
       try {
         const fetchedQuestions = await getQuestionsByFilter();
 
+        // find questions that user has already answered
         const answeredQuestions = fetchedQuestions.filter(question =>
           question.answers.some(answer => answer.ansBy === user.username),
         );
 
         if (answeredQuestions.length === 0) {
-          setError("You don't have enough answer history. Go answer more questions!");
+          setError("you don't have enough answer history. Go answer more questions!");
           return;
         }
 
+        // find questions that user has not answered
         const unansweredQuestions = fetchedQuestions.filter(
           question => !answeredQuestions.some(ans => ans._id === question._id),
         );
 
         const recommendedQuestions: Question[] = [];
 
+        // find similar questions for all answered questions
         const similarQuestionsPromises = answeredQuestions.map(answeredQuestion =>
           filterQuestionsBySimilarity(
             answeredQuestion._id || null,
@@ -41,6 +49,7 @@ const QuestionsToAnswerPage: React.FC = () => {
 
         const similarQuestionsResults = await Promise.all(similarQuestionsPromises);
 
+        // add at most 3 recommended questions to the list
         similarQuestionsResults.forEach(similarQuestions => {
           if (recommendedQuestions.length >= 3) return;
 
@@ -54,7 +63,7 @@ const QuestionsToAnswerPage: React.FC = () => {
 
         setQuestions(recommendedQuestions || []);
       } catch (err) {
-        setError("you don't have enough answer history... go answer more questions!");
+        setError("you don't have enough answer history. Go answer more questions!");
       }
     };
     fetchRecommendedQuestions();
