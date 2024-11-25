@@ -70,6 +70,12 @@ const translateQuestion = async (data: TranslateQuestionRequest): Promise<Questi
       data.question.answers.map(async answer => ({
         ...answer,
         text: await translateField(answer.text),
+        comments: await Promise.all(
+          answer.comments.map(async comment => ({
+            ...comment,
+            text: await translateField(comment.text),
+          })),
+        ),
       })),
     );
 
