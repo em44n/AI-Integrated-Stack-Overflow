@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { Question } from '../../../types';
 import useUserContext from '../../../hooks/useUserContext';
@@ -61,6 +61,11 @@ const QuestionsToAnswerPage: React.FC = () => {
           }
         });
 
+        if (recommendedQuestions.length === 0) {
+          setError('you have answered all recommended questions. Nice work!');
+          return;
+        }
+
         setQuestions(recommendedQuestions || []);
       } catch (err) {
         setError("you don't have enough answer history. Go answer more questions!");
@@ -68,6 +73,16 @@ const QuestionsToAnswerPage: React.FC = () => {
     };
     fetchRecommendedQuestions();
   }, [user.username]);
+
+  const navigate = useNavigate();
+  /**
+   * Function to navigate to the specified question page based on the question ID.
+   *
+   * @param questionID - The ID of the question to navigate to.
+   */
+  const handleSelectRecommendedQuestions = (questionID: string) => {
+    navigate(`/question/${questionID}`);
+  };
 
   return (
     <div>
@@ -84,9 +99,15 @@ const QuestionsToAnswerPage: React.FC = () => {
           {questions &&
             questions.map(question => (
               <li key={question._id} className='question-item'>
-                <NavLink to={`/questions/${question._id}`} className='question-link'>
+                <div
+                  className='question-link'
+                  onClick={() => {
+                    if (question._id) {
+                      handleSelectRecommendedQuestions(question._id);
+                    }
+                  }}>
                   {question.text}
-                </NavLink>
+                </div>
               </li>
             ))}
         </ul>

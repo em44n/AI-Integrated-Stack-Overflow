@@ -9,10 +9,12 @@
 }
 
 .question-item {
-  border: 1px solid #ccc;
+  border: #000000 1px dashed;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .question-link {
