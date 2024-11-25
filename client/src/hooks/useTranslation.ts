@@ -150,7 +150,7 @@ const useTranslation = (
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Error translating questions:', err);
-        setError('Translation unavailable at this time. Please try again later.');
+        setError('Translation service currently unavailable. Please try again later.');
         setTargetLang('English');
       }
     };
