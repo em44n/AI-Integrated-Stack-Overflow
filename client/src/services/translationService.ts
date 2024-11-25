@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Question } from '../types';
 import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
@@ -36,7 +35,6 @@ const translateText = async (data: TranslationRequest): Promise<string | null> =
     throw new Error('Could not fetch translated text from Hugging Face API.');
   }
 
-  console.log('Translated text:', response);
   return response[0].translation_text;
 };
 
@@ -83,8 +81,7 @@ const translateQuestion = async (data: TranslateQuestionRequest): Promise<Questi
       answers: translatedAnswers,
     };
   } catch (error) {
-    console.error('Error translating question:', error);
-    return null;
+    throw new Error(`Error translating question: ${error}`);
   }
 };
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios from 'axios';
 
 const API_URL = 'https://api-inference.huggingface.co/models';
@@ -22,11 +21,18 @@ export async function postAIRequest<TInput, TParameters, TResponse>(
     });
     return response.data;
   } catch (error) {
+    const err = new Error('Request failed') as Error & { code?: number; details?: object };
+
     if (axios.isAxiosError(error) && error.response) {
-      console.error('API error:', error.response.data);
+      err.code = error.response.status;
+      err.details = error.response.data;
     } else {
-      console.error('Unexpected error:', error);
+      err.code = undefined;
+      err.details = {
+        error: 'Unknown error',
+        message: error instanceof Error ? error.message : String(error),
+      };
     }
-    return null;
+    throw err;
   }
 }
