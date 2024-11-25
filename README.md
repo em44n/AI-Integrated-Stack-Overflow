@@ -20,7 +20,7 @@ cd ../testing
 npm install
 ```
 ### Usage
-In order to run the project locally, you must set up `.env` files in the server and client directories. In the client directory's `.env` file, add `REACT_APP_SERVER_URL=http://localhost:8000`, or whatever your server URL is. In the server directory's `.env` file add:
+In order to run the project locally, ensure you have MongoDB Compass running in order to access the local database. Connect to `mongodb://localhost:27017/` using MongoDB Compass. You also must set up `.env` files in the client and server directories. In the client directory's `.env` file, add `REACT_APP_SERVER_URL=http://localhost:8000`, or whatever your server URL is. In the server directory's `.env` file add:
 ```
 MONGODB_URI=mongodb://127.0.0.1:27017
 CLIENT_URL=http://localhost:3000
