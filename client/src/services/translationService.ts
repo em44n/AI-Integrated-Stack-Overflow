@@ -46,15 +46,19 @@ const translateText = async (data: TranslationRequest): Promise<string | null> =
 const translateQuestion = async (data: TranslateQuestionRequest): Promise<Question | null> => {
   try {
     const translateField = async (text: string): Promise<string> => {
-      if (text === undefined) return '';
-      const response: TranslationResponse[] | null = await postAIRequest(
-        {
-          inputs: text,
-          parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang },
-        },
-        TRANSLATION_AI_MODEL,
-      );
-      return response?.[0].translation_text || text;
+      try {
+        if (text === undefined) return '';
+        const response: TranslationResponse[] | null = await postAIRequest(
+          {
+            inputs: text,
+            parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang },
+          },
+          TRANSLATION_AI_MODEL,
+        );
+        return response?.[0].translation_text || text;
+      } catch (error) {
+        throw new Error(`Unable to translate ${text} due to ${error}.`);
+      }
     };
 
     // translate all the text-based fields of question
@@ -70,12 +74,15 @@ const translateQuestion = async (data: TranslateQuestionRequest): Promise<Questi
       data.question.answers.map(async answer => ({
         ...answer,
         text: await translateField(answer.text),
-        comments: await Promise.all(
-          answer.comments.map(async comment => ({
-            ...comment,
-            text: await translateField(comment.text),
-          })),
-        ),
+        comments:
+          answer.comments !== undefined || answer.comments !== null
+            ? await Promise.all(
+                data.question.comments.map(async comment => ({
+                  ...comment,
+                  text: await translateField(comment.text),
+                })),
+              )
+            : [],
       })),
     );
 
@@ -87,7 +94,7 @@ const translateQuestion = async (data: TranslateQuestionRequest): Promise<Questi
       answers: translatedAnswers,
     };
   } catch (error) {
-    throw new Error(`Error translating question: ${error}`);
+    throw new Error(`Error translating question ${data.question.text} due to ${error}.`);
   }
 };
 

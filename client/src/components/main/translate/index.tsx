@@ -21,7 +21,7 @@ interface TranslateProps {
  * @param translated: function to set the value of the translated questions
  */
 const TranslateDropdown = ({ questions, prevTranslated, translated }: TranslateProps) => {
-  const { languages, targetLang, setTargetLang } = useTranslation(
+  const { languages, targetLang, setTargetLang, error } = useTranslation(
     questions,
     prevTranslated,
     translated,
@@ -46,6 +46,7 @@ const TranslateDropdown = ({ questions, prevTranslated, translated }: TranslateP
           <option key={lang}> {lang} </option>
         ))}
       </select>
+      {error && <p className='error-message'>{error}</p>}
     </div>
   );
 };
