@@ -128,6 +128,7 @@ const useTranslation = (
     const fetchData = async () => {
       try {
         if (targetLang && questions && targetLang !== 'English') {
+          setError('');
           const translations = await Promise.all(
             questions.map(async question => {
               if (!question) return null;
