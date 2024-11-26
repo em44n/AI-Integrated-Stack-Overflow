@@ -45,8 +45,11 @@ const NewQuestionPage = () => {
       />
       <Input
         title={'Tags'}
-        hint={'Add keywords separated by whitespace'}
+        hint={
+          'Add keywords separated by whitespace. If left blank, our AI will generate tags for you!'
+        }
         id={'formTagInput'}
+        mandatory={false}
         val={tagNames}
         setState={setTagNames}
         err={tagErr}
