@@ -3,12 +3,22 @@ import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
 const TRANSLATION_AI_MODEL = 'facebook/mbart-large-50-many-to-many-mmt';
 
+/*
+ * Interface representing request data to translation API
+ * - text: Text to translate
+ * - source_lang: original language of text
+ * - target_lang: language to translate text to
+ */
 interface TranslationRequest {
   text: string;
   source_lang: string;
   target_lang: string;
 }
 
+/*
+ * Interface representing response data from translation API
+ * - translation_text: Translated text
+ */
 interface TranslationResponse {
   translation_text: string;
 }
@@ -25,6 +35,11 @@ interface TranslateQuestionRequest {
   target_lang: string;
 }
 
+/*
+ * Function to connect with hugging face translation API and translate text
+ * @param data request that includes the text to translate and the language to translate to and from
+ * @returns translated text or null if the text could not be translated
+ */
 const translateText = async (data: TranslationRequest): Promise<string | null> => {
   const response: TranslationResponse[] | null = await postAIRequest(
     { inputs: data.text, parameters: { src_lang: data.source_lang, tgt_lang: data.target_lang } },

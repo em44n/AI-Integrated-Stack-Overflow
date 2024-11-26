@@ -2,14 +2,29 @@ import { postAIRequest } from './huggingFace/huggingFaceAPI';
 
 const TEXT_GENERATOR_AI_MODEL = 'Qwen/Qwen2.5-Coder-32B-Instruct';
 
+/*
+ * Interface representing request data to AI text generator API
+ * - inputs: Text to generate
+ * - parameters: parameters for the AI model
+ */
 interface QuestionRequest {
   question: string;
 }
 
+/*
+ * Interface representing response data from AI text generator API
+ * - generated_text: Generated text
+ */
 interface AnswerResponse {
   generated_text: string;
 }
 
+/*
+ * Function to remove the prompt from the generated answer
+ * @param prompt the prompt to remove
+ * @param answer the generated answer
+ * @returns the generated answer without the prompt
+ */
 const removeRepeatedPrompt = (prompt: string, answer: string): string => {
   const cleanedAnswer = answer.trimStart();
   return cleanedAnswer.startsWith(prompt)
@@ -17,6 +32,11 @@ const removeRepeatedPrompt = (prompt: string, answer: string): string => {
     : cleanedAnswer;
 };
 
+/*
+ * Function to connect with hugging face AI text generator API and get the generated text
+ * @param prompt the prompt to generate text from
+ * @returns generated text or null if the text could not be generated
+ */
 const generateAIText = async (prompt: string): Promise<string | null> => {
   const response: AnswerResponse[] | null = await postAIRequest(
     {
@@ -37,6 +57,11 @@ const generateAIText = async (prompt: string): Promise<string | null> => {
   return removeRepeatedPrompt(prompt, response[0].generated_text);
 };
 
+/*
+ * Function to get the answer of a question from AI
+ * @param data the question to get the answer for
+ * @returns the answer to the question
+ */
 export const getAIAnswer = async (data: QuestionRequest): Promise<string | null> => {
   const answer = await generateAIText(`${data.question} Answer in 300 characters or less.`);
   if (answer === null) {
@@ -46,6 +71,11 @@ export const getAIAnswer = async (data: QuestionRequest): Promise<string | null>
   return answer;
 };
 
+/*
+ * Function to get the tags of a question from AI
+ * @param data the question to get the tags for
+ * @returns the tags for the question
+ */
 export const getAITags = async (data: QuestionRequest): Promise<string[]> => {
   const generatedText = await generateAIText(
     `Generate 3 tags only to describe this text "${data.question}". Return all the tags inside a [] separated by a space and no other characters.`,
