@@ -31,7 +31,7 @@ PORT=8000
 ```
 or whatever your MongoDB URI, client URL, and port are.
 
-Then, run this line from the root directory: `npx ts-node server/server.ts` to start the server.
+Then, run this line from the root directory in the terminal: `npx ts-node server/server.ts` to start the server.
 After that, open another terminal tab and run the following lines from the root directory to start the client:
 ```
 cd client
