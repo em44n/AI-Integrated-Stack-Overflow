@@ -12,6 +12,7 @@ The project is built using the ReactJS framework, with Typescript, HTML, and CSS
 
 ## Instructions to Run Locally
 ### Installation
+From the root directory:
 ``` cd client
 npm install
 cd ../server
@@ -19,6 +20,7 @@ npm install
 cd ../testing
 npm install
 ```
+When the code is first installed, there may be eslint errors. Run `npm run lint:fix` in the server and client directories in the terminal to fix these.
 ### Usage
 In order to run the project locally, ensure you have MongoDB Compass running in order to access the local database. Connect to `mongodb://localhost:27017/` using MongoDB Compass. You also must set up `.env` files in the client and server directories. In the client directory's `.env` file, add `REACT_APP_SERVER_URL=http://localhost:8000`, or whatever your server URL is. In the server directory's `.env` file add:
 ```
