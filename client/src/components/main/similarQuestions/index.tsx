@@ -4,7 +4,7 @@ import './index.css';
 
 /**
  * Interface reprsenting the props for the SimilarQuestions component
- * - qid: id of the question being checked for similarity, or null if the question doesn't exist yet
+ * - qid: id of the question being checked for similarity, or null if the question doesn't exist yet (the user is creating it)
  * - text: text of the question being checked for similarity
  */
 interface SimiliarQuestionsProps {
