@@ -67,6 +67,7 @@ const useTranslation = (
   ];
 
   const [targetLang, setTargetLang] = useState('English');
+  const [error, setError] = useState<string | null>(null);
 
   // Maps language names to Hugging Face language codes
   const getLanguageCode = (language: string): string => {
@@ -127,6 +128,7 @@ const useTranslation = (
     const fetchData = async () => {
       try {
         if (targetLang && questions && targetLang !== 'English') {
+          setError('');
           const translations = await Promise.all(
             questions.map(async question => {
               if (!question) return null;
@@ -146,9 +148,11 @@ const useTranslation = (
             setTranslatedQlist(nonNullTranslations);
           }
         }
-      } catch (error) {
+      } catch (err) {
         // eslint-disable-next-line no-console
-        console.error('Error translating questions:', error);
+        console.error('Error translating questions:', err);
+        setError('Translation service currently unavailable. Please try again later.');
+        setTargetLang('English');
       }
     };
 
@@ -159,6 +163,7 @@ const useTranslation = (
     targetLang,
     setTargetLang,
     languages,
+    error,
   };
 };
 
