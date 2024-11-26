@@ -5,7 +5,7 @@ import { getQuestionsByFilter } from '../services/questionService';
 
 /**
  * Custom hook for managing the state and logic of the similar questions on the question form.
- * @param qid - id of the question to check similarity for, null if question does not exist yet
+ * @param qid - id of the question to check similarity for, null if question does not exist yet (user is creating it)
  * @param text - the text of the question to check similarity for
  * @returns similarQuestions - array of questions are similar to the question the user is writing
  */

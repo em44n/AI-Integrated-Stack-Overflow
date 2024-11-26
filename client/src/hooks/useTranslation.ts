@@ -8,7 +8,7 @@ import { translateQuestion } from '../services/translationService';
  * @param prevTranslated - the existing list of translated questions
  * @param setTranslatedQlist - function to set the translated question list of the parent component
  * @returns object - Returns the translated questions, selected language, a function to set the selected language,
- *                   and the available languages for translation.
+ *                   the available languages for translation, and an error message for if translation fails.
  */
 const useTranslation = (
   questions: Question[] | null,
