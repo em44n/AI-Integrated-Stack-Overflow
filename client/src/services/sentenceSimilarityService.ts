@@ -4,7 +4,12 @@ import { postAIRequest } from './huggingFace/huggingFaceAPI';
 // Hugging Face API URL and Token
 const SIMILARITY_AI_MODEL = 'sentence-transformers/all-MiniLM-L6-v2';
 
-// Function to get similarities of a sentence with another sentence using Hugging Face API
+/*
+ * Function to connect with hugging face similarity API and get the similarity between two sentences
+ * @param mainSentence the sentence to compare to
+ * @param sentenceToCompare the sentence to compare with mainSentence
+ * @returns similarity score between the two sentences
+ */
 async function getSimilarity(mainSentence: string, sentenceToCompare: string): Promise<number> {
   const response: number[] | null = await postAIRequest(
     {
@@ -23,8 +28,12 @@ async function getSimilarity(mainSentence: string, sentenceToCompare: string): P
   return response[0];
 }
 
-// Function to filter queries based on similarity to the main sentence
-// NOTE: The queries input type may be changed depending on the usage of this function
+/**
+ * Function to get the similarity of a sentence compared to Queries
+ * @param mainSentence the sentence (string) to comapre to other Queries
+ * @param queries array of Queries to compare main sentence with
+ * @returns array of matching query IDs
+ */
 async function filterQueriesBySimilarity(
   mainSentence: string,
   queries: { _id: string; text: string }[],

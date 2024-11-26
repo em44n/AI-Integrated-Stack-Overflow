@@ -3,11 +3,22 @@ import axios from 'axios';
 const API_URL = 'https://api-inference.huggingface.co/models';
 const API_KEY = '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';
 
+/*
+ * Interface representing request data to Hugging Face API
+ * - inputs: Input data for the AI model
+ * - parameters: Parameters for the AI model
+ */
 export interface HuggingFaceRequest<TInput, TParameters> {
   inputs: TInput;
   parameters?: TParameters;
 }
 
+/*
+ * Function to connect with Hugging Face API and get the response
+ * @param data request that includes the input data and parameters for the AI model
+ * @param aiModel the AI model to use for the request
+ * @returns response from the AI model
+ */
 export async function postAIRequest<TInput, TParameters, TResponse>(
   data: HuggingFaceRequest<TInput, TParameters>,
   aiModel: string,
