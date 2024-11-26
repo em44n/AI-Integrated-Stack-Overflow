@@ -10,7 +10,6 @@ import TagPage from './main/tagPage';
 import NewQuestionPage from './main/newQuestion';
 import NewAnswerPage from './main/newAnswer';
 import AnswerPage from './main/answerPage';
-import APITestPage from './main/apiTestPage';
 import QuestionsToAnswerPage from './main/questionsToAnswerPage';
 
 const ProtectedRoute = ({
@@ -52,7 +51,6 @@ const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
             }>
             <Route path='/home' element={<QuestionPage />} />
             <Route path='tags' element={<TagPage />} />
-            <Route path='apitest' element={<APITestPage />} />
             <Route path='/questions-to-answer' element={<QuestionsToAnswerPage />} />
             <Route path='/question/:qid' element={<AnswerPage />} />
             <Route path='/new/question' element={<NewQuestionPage />} />
