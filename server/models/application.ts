@@ -209,7 +209,10 @@ export const getQuestionsByOrder = async (order: OrderType): Promise<Question[]>
       ]);
       return sortQuestionsByActive(qlist);
     }
-    qlist = await QuestionModel.find().populate([{ path: 'tags', model: TagModel }]);
+    qlist = await QuestionModel.find().populate([
+      { path: 'tags', model: TagModel },
+      { path: 'answers', model: AnswerModel },
+    ]);
     if (order === 'unanswered') {
       return sortQuestionsByUnanswered(qlist);
     }

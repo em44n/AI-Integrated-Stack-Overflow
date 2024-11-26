@@ -1,0 +1,30 @@
+.questions-to-answer-page {
+    padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.questions-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.question-item {
+  border: #000000 1px dashed;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.question-link {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.question-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
