@@ -13,7 +13,8 @@ The project is built using the ReactJS framework, with Typescript, HTML, and CSS
 ## Instructions to Run Locally
 ### Installation
 From the root directory:
-``` cd client
+```
+cd client
 npm install
 cd ../server
 npm install
@@ -37,3 +38,4 @@ npm run start
 cd ..
 npx ts-node server/server.ts
 ```
+Ensure that `npx ts-node server/server.ts` is being run from the root directory.
