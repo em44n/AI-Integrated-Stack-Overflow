@@ -26,6 +26,7 @@ describe('POST /addAnswer', () => {
         text: 'This is a test answer',
         ansBy: 'dummyUserId',
         ansDateTime: new Date('2024-06-03'),
+        aiAnswer: false,
       },
     };
 
@@ -35,6 +36,7 @@ describe('POST /addAnswer', () => {
       ansBy: 'dummyUserId',
       ansDateTime: new Date('2024-06-03'),
       comments: [],
+      aiAnswer: false,
     };
     saveAnswerSpy.mockResolvedValueOnce(mockAnswer);
 
@@ -75,6 +77,7 @@ describe('POST /addAnswer', () => {
       ansBy: 'dummyUserId',
       ansDateTime: mockAnswer.ansDateTime.toISOString(),
       comments: [],
+      aiAnswer: false,
     });
   });
 
@@ -225,5 +228,69 @@ describe('POST /addAnswer', () => {
     const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
 
     expect(response.status).toBe(500);
+  });
+
+  it('should add a new AI answer to the question', async () => {
+    const validQid = new mongoose.Types.ObjectId();
+    const validAid = new mongoose.Types.ObjectId();
+    const mockReqBody = {
+      qid: validQid,
+      ans: {
+        text: 'This is a test answer',
+        ansBy: 'AI',
+        ansDateTime: new Date('2024-06-03'),
+        aiAnswer: true,
+      },
+    };
+
+    const mockAnswer = {
+      _id: validAid,
+      text: 'This is a test answer',
+      ansBy: 'AI',
+      ansDateTime: new Date('2024-06-03'),
+      comments: [],
+      aiAnswer: true,
+    };
+    saveAnswerSpy.mockResolvedValueOnce(mockAnswer);
+
+    addAnswerToQuestionSpy.mockResolvedValueOnce({
+      _id: validQid,
+      title: 'This is a test question',
+      text: 'This is a test question',
+      tags: [],
+      askedBy: 'dummyUserId',
+      askDateTime: new Date('2024-06-03'),
+      views: [],
+      upVotes: [],
+      downVotes: [],
+      answers: [mockAnswer._id],
+      comments: [],
+    });
+
+    popDocSpy.mockResolvedValueOnce({
+      _id: validQid,
+      title: 'This is a test question',
+      text: 'This is a test question',
+      tags: [],
+      askedBy: 'dummyUserId',
+      askDateTime: new Date('2024-06-03'),
+      views: [],
+      upVotes: [],
+      downVotes: [],
+      answers: [mockAnswer],
+      comments: [],
+    });
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      _id: validAid.toString(),
+      text: 'This is a test answer',
+      ansBy: 'AI',
+      ansDateTime: mockAnswer.ansDateTime.toISOString(),
+      comments: [],
+      aiAnswer: true,
+    });
   });
 });
